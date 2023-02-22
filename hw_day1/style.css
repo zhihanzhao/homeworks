@@ -1,0 +1,91 @@
+body{
+    text-align: center;
+    margin: 100px;
+    
+}
+
+form{
+    display: grid;
+    gap: 10px;
+    grid-template-areas:
+    "firstName lastName"
+    "mobile  mobile"
+    "email  email"
+    "password confirm";
+
+}
+
+.firstName{
+    grid-area: firstName;
+}
+.lastName{
+    grid-area: lastName;
+}
+.mobile{
+    grid-area: mobile;
+}
+.email{
+    grid-area: email;
+}
+.password{
+    grid-area: password;
+}
+.confirm{
+    grid-area: confirm;
+}
+
+
+
+input{
+    outline-style: none ;
+    border: 1px solid #ccc; 
+    border-radius: 3px;
+    padding: 6px;
+    font-size: 14px;
+    font-family: "Microsoft soft";
+}
+input:focus{
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
+}
+
+
+
+.conditions{
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+}
+
+label{
+    display: inline-block;
+    line-height: 80px; 
+}
+
+p{
+    margin-left: 40px;
+    text-align: left;
+    font-size: small;
+}
+
+.checkbox{
+    size: 10px;
+    display: inline-block;
+}
+
+.highlight{
+    padding: 2px 8px;
+
+}
+
+button{
+    color: white;
+    padding: 12px 18%;
+    border: none;
+    border-radius: 4px;
+    background-color: #008CBA 
+}
+.signIn{
+    background-color: rgb(49, 153, 49);
+}
