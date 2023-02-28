@@ -7,4 +7,7 @@ Use external CSS to design a page.
 2. Use the flex layout.
 
 ## Homework Day 3
-Practice the Javascript
+Practice the Javascript.
+
+## Homework Day 4
+Custom myMap and myReduce function for Array Object.
