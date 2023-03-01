@@ -18,7 +18,6 @@ console.log("map result: " + mapRes);
 
 
 
-
 //myReduce
 Array.prototype.myReduce = function(func,initialValue){
     const arr = this;
