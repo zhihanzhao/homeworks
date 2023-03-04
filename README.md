@@ -11,3 +11,7 @@ Practice the Javascript.
 
 ## Homework Day 4
 Custom myMap and myReduce function for Array Object.
+
+## Homework Day 5
+  1:Create a function can only print out the message with the first 5 excutions
+  2:Filter an Array with a user input of minimum length
