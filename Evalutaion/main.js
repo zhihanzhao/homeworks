@@ -20,11 +20,13 @@ const Model = (() => {
     const moleOut = (id) => {
         state.data[id-1].hidden = false;
         state.moleCount++;
+        console.log("mole " + id + " out");
     }
 
     const moleIn = (id) => {
         state.data[id-1].hidden = true;
         state.moleCount--;
+        console.log("mole " + id + " in");
     }
 
     const checkMoleIn = (id) =>{
@@ -146,13 +148,14 @@ const Controller = (() => {
     }
 
     //game function
-    const selectMoleAppear = (state,appEl) =>{
+    const selectMole = (state,appEl) =>{
         //update data
         let id = Math.floor(Math.random() * 12) + 1;
         while(!Model.checkMoleIn(id)){
             id = Math.floor(Math.random() * 12) + 1;
         }
         Model.moleOut(id);
+        setTimeout(() => (Model.moleIn(id)),2000);
         //view data
         View.render(state,appEl);
     }
@@ -160,8 +163,8 @@ const Controller = (() => {
     const setMoles = (state,appEl) => {
         let interval = setInterval(() => {
             if(state.moleCount < 3 && !state.done){
-                selectMoleAppear(state,appEl)
-            }else{
+                selectMole(state,appEl);
+            }else if(state.done){
                 clearInterval(interval);
             }
         },1000);
@@ -170,6 +173,7 @@ const Controller = (() => {
     const setTime = (state,appEl) => {
         let timer = setInterval(() => {
             if(state.time > 0){
+                console.log(state.time +"s");
                 state.time --;
                 View.render(state,appEl);
             }else{

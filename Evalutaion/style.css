@@ -21,9 +21,8 @@ body {
     display: grid;
     grid-template-columns: 90% 10%;
     font-size: 20px;
-
-
-
+    align-items: center;
+    justify-items: center;
 }
 
 header{
@@ -46,11 +45,8 @@ button:hover {
 	background-color: #0062cc;
 }
 
-.time-counter{
-
-}
-
 .game-board{
+    grid-area: 2/1;
     margin-left: 80px;
     display: grid;
     grid-template-columns: 200px 200px 200px 200px;
