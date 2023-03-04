@@ -1,6 +1,7 @@
 //Model
 const Model = (() => {
     const state = {
+        done : true,
         time : 10,
         scores : 0,
         moleCount : 0,
@@ -8,6 +9,7 @@ const Model = (() => {
     }
 
     const initialize = () => {
+        state.done = false;
         state.time = 10;
         state.scores = 0;
         state.moleCount = 0;
@@ -102,7 +104,33 @@ const View = (() => {
 
 //Controller
 const Controller = (() => {
-    //listener : always listening 
+
+    //initial
+    const initialPage = () => {
+        const appEl = document.querySelector("#app");
+        View.render(Model.state,appEl);
+        startGameAtction(Model.state,appEl);
+        hitMoleAction(Model.state,appEl);
+    }
+
+
+    
+    //listener
+    const startGameAtction = (state,appEl) => {
+        appEl.addEventListener('click', (e) => {
+            if(e.target.classList.contains("start-game_btn")){
+                //change data
+                Model.initialize();
+                //view data
+                View.render(state,appEl);
+                //count changed should update too;
+                setMoles(state,appEl);
+                setTime(state,appEl);
+                //setMoles should always work 
+            }
+        })
+    }
+
     const hitMoleAction = (state,appEl) => {
         appEl.addEventListener('click',(e) => {
             if(e.target.classList.contains("mole")){
@@ -119,20 +147,6 @@ const Controller = (() => {
         })
     }
 
-    const startGameAtction = (state,appEl) => {
-        appEl.addEventListener('click', (e) => {
-            if(e.target.classList.contains("start-game_btn")){
-                //change data
-                Model.initialize();
-                //view data
-                View.render(state,appEl);
-                //count changed, time changed, should updated too
-                setMoles(state,appEl);
-                setTime(state,appEl);
-            }
-        })
-    }
-
     //game function
     const selectMoleAppear = (state,appEl) =>{
         //update data
@@ -145,16 +159,15 @@ const Controller = (() => {
         View.render(state,appEl);
     }
 
-    const setMoles = (state,appEl) => { 
+    const setMoles = (state,appEl) => {
         let interval = setInterval(() => {
-            if(state.moleCount < 3){
+            if(state.moleCount < 3 && !state.done){
                 selectMoleAppear(state,appEl)
             }else{
                 clearInterval(interval);
             }
         },1000);
     }
-
 
     const setTime = (state,appEl) => {
         let timer = setInterval(() => {
@@ -166,6 +179,8 @@ const Controller = (() => {
                 alert(`Times out! Your final score is ${state.scores}.`);
                 //change data() //stop listen the hit action // make all moles hidden
                 Model.hiddenAll();
+                //sign game over
+                state.done = true;
                 //view data
                 View.render(state,appEl);
             }
@@ -174,6 +189,7 @@ const Controller = (() => {
 
 
     return {
+        initialPage,
         setMoles,
         setTime,
         hitMoleAction,
@@ -181,10 +197,10 @@ const Controller = (() => {
     }
 })();
 
-const appEl = document.querySelector("#app");
-View.render(Model.state,appEl);
-Controller.hitMoleAction(Model.state,appEl);
-Controller.startGameAtction(Model.state,appEl);
+Controller.initialPage();
+
+
+
 
 
 
