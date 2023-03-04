@@ -1,5 +1,3 @@
-console.log("hello");
-
 //Model
 const Model = (() => {
     const state = {
@@ -7,10 +5,10 @@ const Model = (() => {
         scores : 0,
         moleCount : 0,
         data : [{id:1, hidden:true},{id:2, hidden:true},{id:3, hidden:true},{id:4, hidden:true},{id:5, hidden:true},{id:6, hidden:true},{id:7, hidden:true},{id:8, hidden:true},{id:9, hidden:true},{id:10, hidden:true},{id:11, hidden:true},{id:12, hidden:true}]
-
     }
+
     const initialize = () => {
-        state.time = 8;
+        state.time = 10;
         state.scores = 0;
         state.moleCount = 0;
         state.data = [{id:1, hidden:true},{id:2, hidden:true},{id:3, hidden:true},{id:4, hidden:true},{id:5, hidden:true},{id:6, hidden:true},{id:7, hidden:true},{id:8, hidden:true},{id:9, hidden:true},{id:10, hidden:true},{id:11, hidden:true},{id:12, hidden:true}];
@@ -31,10 +29,9 @@ const Model = (() => {
         return state.data[id-1].hidden;
     }
 
-    const refreshData = () => {
+    const hiddenAll = () => {
         state.data = [{id:1, hidden:true},{id:2, hidden:true},{id:3, hidden:true},{id:4, hidden:true},{id:5, hidden:true},{id:6, hidden:true},{id:7, hidden:true},{id:8, hidden:true},{id:9, hidden:true},{id:10, hidden:true},{id:11, hidden:true},{id:12, hidden:true}];;
         console.log(state.data);
-
     }
 
     return{
@@ -43,7 +40,7 @@ const Model = (() => {
         moleIn,
         moleOut,
         checkMoleIn,
-        refreshData,
+        hiddenAll,
     }
 
 })();
@@ -90,7 +87,7 @@ const View = (() => {
         state.data.forEach(e => {
             html += `
             <div class="circle" data-id =${e.id}>
-                <img class="mole ${e.hidden ? "hidden" : ""}" src="mole.jpeg" alt="">
+                <img class="mole ${e.hidden ? "hidden" : ""}" src="mole.jpg" alt="">
             </div>
             `
         });
@@ -105,18 +102,19 @@ const View = (() => {
 
 //Controller
 const Controller = (() => {
-    //listener 
+    //listener : always listening 
     const hitMoleAction = (state,appEl) => {
         appEl.addEventListener('click',(e) => {
             if(e.target.classList.contains("mole")){
+                //update data 
                 console.log("!!Clickd" + e.target.parentElement.dataset.id);
                 state.scores++;
                 const id = e.target.parentElement.dataset.id;
                 Model.moleIn(id);
+                //view data
                 View.render(state,appEl);
-                console.log("now:" + state.data);
-                //select new one
-                selectMoleAppear(state,appEl);
+                //count changed should update too;
+                setMoles(state,appEl);
             }
         })
     }
@@ -124,29 +122,27 @@ const Controller = (() => {
     const startGameAtction = (state,appEl) => {
         appEl.addEventListener('click', (e) => {
             if(e.target.classList.contains("start-game_btn")){
-                playGame(state,appEl);
+                //change data
+                Model.initialize();
+                //view data
+                View.render(state,appEl);
+                //count changed, time changed, should updated too
+                setMoles(state,appEl);
+                setTime(state,appEl);
             }
         })
     }
 
-    //game logic
+    //game function
     const selectMoleAppear = (state,appEl) =>{
+        //update data
         let id = Math.floor(Math.random() * 12) + 1;
         while(!Model.checkMoleIn(id)){
             id = Math.floor(Math.random() * 12) + 1;
         }
-        console.log("pop:" + id);
         Model.moleOut(id);
-        console.log("mole number: " + state.moleCount);
-        console.log(state);
+        //view data
         View.render(state,appEl);
-    }
-
-    const initialMoles = (state,appEl) => {
-        while(state.moleCount < 3){
-            selectMoleAppear(state,appEl);
-        }
-
     }
 
     const setMoles = (state,appEl) => { 
@@ -159,34 +155,27 @@ const Controller = (() => {
         },1000);
     }
 
-    const playGame = (state,appEl) =>{
-        Model.initialize();
-        initialMoles(state,appEl);
-        hitMoleAction(state,appEl);
 
+    const setTime = (state,appEl) => {
         let timer = setInterval(() => {
-            state.time --;
             if(state.time > 0){
+                state.time --;
                 View.render(state,appEl);
             }else{
                 clearInterval(timer);
-                stopGame(state,appEl);
+                alert(`Times out! Your final score is ${state.scores}.`);
+                //change data() //stop listen the hit action // make all moles hidden
+                Model.hiddenAll();
+                //view data
+                View.render(state,appEl);
             }
         },1000);
-        
     }
 
-    const stopGame = (state,appEl) => {
-        console.log("Stop");
-        Model.refreshData();
-        View.render(state,appEl);
-        alert(`Times out! Your final score is .`);
-    }
 
     return {
-        playGame,
         setMoles,
-        initialMoles,
+        setTime,
         hitMoleAction,
         startGameAtction,
     }
@@ -194,8 +183,10 @@ const Controller = (() => {
 
 const appEl = document.querySelector("#app");
 View.render(Model.state,appEl);
-
+Controller.hitMoleAction(Model.state,appEl);
 Controller.startGameAtction(Model.state,appEl);
+
+
 
 
 
