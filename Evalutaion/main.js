@@ -63,7 +63,7 @@ const View = (() => {
         return `
         <header>
             <h1>Welcome to whack-a-mole</h1>
-            <p class="message">Let's Go, your total score is ${state.scores}</p>
+            <h3 class="message">Let's Go, your total score is ${state.scores}</h3>
             <button class="start-game_btn"> Start Game !</button>
         </header>`;
     }
@@ -71,7 +71,8 @@ const View = (() => {
     const generateTimeCounter = (state) =>{
         return`
         <div class="time-counter">
-            <label for="">Time Left</label>${state.time}
+            <label>Time Left :</label>
+            <h1>${state.time}</h1><label>seconds</label>
         </div>`
 
     }
@@ -123,10 +124,9 @@ const Controller = (() => {
                 Model.initialize();
                 //view data
                 View.render(state,appEl);
-                //count changed should update too;
+                //setMoles should always work 
                 setMoles(state,appEl);
                 setTime(state,appEl);
-                //setMoles should always work 
             }
         })
     }
@@ -141,8 +141,6 @@ const Controller = (() => {
                 Model.moleIn(id);
                 //view data
                 View.render(state,appEl);
-                //count changed should update too;
-                setMoles(state,appEl);
             }
         })
     }
