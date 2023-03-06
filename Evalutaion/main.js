@@ -2,7 +2,7 @@
 const Model = (() => {
     const state = {
         done : true,
-        time : 10,
+        time : 30,
         scores : 0,
         moleCount : 0,
         snakeCount : 0,
@@ -11,7 +11,7 @@ const Model = (() => {
 
     const initialize = () => {
         state.done = false;
-        state.time = 10;
+        state.time = 30;
         state.scores = 0;
         state.moleCount = 0;
         state.data = [{id:1, moleHide:true, snakeHide:true},{id:2, moleHide:true, snakeHide:true},{id:3, moleHide:true, snakeHide:true},{id:4, moleHide:true, snakeHide:true},{id:5, moleHide:true, snakeHide:true},{id:6, moleHide:true, snakeHide:true},{id:7, moleHide:true, snakeHide:true},{id:8, moleHide:true, snakeHide:true},{id:9, moleHide:true, snakeHide:true},{id:10, moleHide:true, snakeHide:true},{id:11, moleHide:true, snakeHide:true},{id:12, moleHide:true, snakeHide:true}];
