@@ -23,4 +23,4 @@ Custom myMap and myReduce function for Array Object.
 
 ### If there is any question, please slack me! ^_^
 
-
+test
